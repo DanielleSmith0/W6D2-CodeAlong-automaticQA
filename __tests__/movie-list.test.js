@@ -1,0 +1,28 @@
+const { Builder, Capabilities } = require("selenium-webdriver");
+require("chromedriver");
+
+const driver = new Builder().withCapabilities(Capabilities.chrome()).build();
+
+const { addMovie, deleteMovie } = require("../testFunctions/addMovie")
+
+beforeAll( async () => {
+    await driver.get("http://127.0.0.1:5500/movie-list/index.html");
+})
+
+//We got that link from the live server window URL.
+
+afterAll(async () => {
+    await driver.quit();
+})
+
+describe("movie list functionality", () => {
+    it("add a movie", async () => {
+        await addMovie(driver);
+        await driver.sleep(3000)
+    })
+
+    it("delete movie", async () => {
+        await deleteMovie(driver);
+        await driver.sleep(3000)
+    })
+})
